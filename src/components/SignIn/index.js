@@ -16,10 +16,20 @@ const SIGN_IN = gql`
 `;
 
 const SignInPage = ({ history, refetch }) => (
-  <div>
-    <h1>SignIn</h1>
-    <SignInForm history={history} refetch={refetch} />
-    <SignUpLink />
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <h1>Sign In</h1>
+      </div>
+    </div>
+
+      <SignInForm history={history} refetch={refetch} />
+
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <SignUpLink />
+      </div>
+    </div>
   </div>
 );
 
@@ -44,7 +54,7 @@ class SignInForm extends Component {
 
       await this.props.refetch();
 
-      this.props.history.push(routes.LANDING);
+      this.props.history.push(routes.CLIENTS);
     });
 
     event.preventDefault();
@@ -58,25 +68,39 @@ class SignInForm extends Component {
     return (
       <Mutation mutation={SIGN_IN} variables={{ login, password }}>
         {(signIn, { data, loading, error }) => (
-          <form onSubmit={event => this.onSubmit(event, signIn)}>
-            <input
-              name="login"
-              value={login}
-              onChange={this.onChange}
-              type="text"
-              placeholder="Email or Username"
-            />
-            <input
-              name="password"
-              value={password}
-              onChange={this.onChange}
-              type="password"
-              placeholder="Password"
-            />
-            <button disabled={isInvalid || loading} type="submit">
-              Sign In
-            </button>
-
+            <form onSubmit={event => this.onSubmit(event, signIn)}>
+              <div class="form-group row  justify-content-center">
+                <label class="col-sm-2 col-form-label" for="login">Username o Email</label>
+                 <div class="col-sm-4">
+                  <input
+                    class="form-control"
+                    name="login"
+                    value={login}
+                    onChange={this.onChange}
+                    type="text"
+                    placeholder="Email or Username"
+                  />
+                </div>
+              </div>
+              <div class="form-group row  justify-content-center">
+                <label class="col-sm-2 col-form-label" for="password">Password</label>
+                <div class="col-sm-4">
+                <input
+                  name="password"
+                  value={password}
+                  onChange={this.onChange}
+                  type="password"
+                  placeholder="Password"
+                />
+                </div>
+              </div>
+              <div class="form-group row  justify-content-end">
+               <div class="col-sm-4">
+                 <button class="btn btn-primary" disabled={isInvalid || loading} type="submit">
+                   Sign In
+                 </button>
+               </div>
+             </div>
             {error && <ErrorMessage error={error} />}
           </form>
         )}

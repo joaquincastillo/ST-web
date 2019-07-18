@@ -44,7 +44,7 @@ class SignUpForm extends Component {
 
       await this.props.refetch();
 
-      this.props.history.push(routes.LANDING);
+      this.props.history.push(routes.ACCOUNT);
     });
 
     event.preventDefault();

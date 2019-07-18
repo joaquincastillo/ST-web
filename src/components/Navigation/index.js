@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import * as routes from '../../constants/routes';
 import SignOutButton from '../SignOut';
+import isRole from '../../utils/utils'
 
 const Navigation = ({ session }) => (
   <div>
@@ -15,35 +15,53 @@ const Navigation = ({ session }) => (
 );
 
 const NavigationAuth = ({ session }) => (
-  <ul>
-    <li>
-      <Link to={routes.LANDING}>Landing</Link>
-    </li>
-    <li>
-      <Link to={routes.ACCOUNT}>Account ({session.me.username})</Link>
-    </li>
-    {session &&
-      session.me &&
-      session.me.role === 'ADMIN' && (
-        <li>
-          <Link to={routes.ADMIN}>Admin</Link>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href={routes.LANDING}>Landing</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href={routes.ACCOUNT} >Account ({session.me.username})</a>
         </li>
-      )}
-    <li>
-      <SignOutButton />
-    </li>
-  </ul>
+        <li class="nav-item">
+          <a class="nav-link" href={routes.CLIENTS} > Clientes </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href={routes.TICKETS} > Tickets </a>
+        </li>
+
+        {session && session.me && isRole(session, 'admin') && (
+          <li class="nav-item">
+            <a class="nav-link" href={routes.ADMIN} > Admin </a>
+          </li>
+        )}
+        {session && session.me && !isRole(session, 'client   w') && (
+          <li class="nav-item">
+            <a class="nav-link" href={routes.USERS} > Usuarios </a>
+          </li>
+        )}
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+        <li>
+          <SignOutButton />
+        </li>
+      </ul>
+    </div>
+  </nav>
 );
 
 const NavigationNonAuth = () => (
-  <ul>
-    <li>
-      <Link to={routes.SIGN_IN}>Sign In</Link>
-    </li>
-    <li>
-      <Link to={routes.LANDING}>Landing</Link>
-    </li>
-  </ul>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href={routes.LANDING}>Landing</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href={routes.SIGN_IN} > Sing In </a>
+      </li>
+      </ul>
+    </div>
+  </nav>
 );
 
 export default Navigation;

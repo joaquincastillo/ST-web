@@ -39,7 +39,7 @@ const authLink = new ApolloLink((operation, forward) => {
     const token = localStorage.getItem('token');
 
     if (token) {
-      headers = { ...headers, 'x-token': token };
+      headers = { ...headers, 'token': token };
     }
 
     return { headers };
@@ -63,6 +63,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     console.log('Network error', networkError);
 
     if (networkError.statusCode === 401) {
+      signOut(client);
+    }
+
+    if (networkError.statusCode === 400) {
       signOut(client);
     }
   }
