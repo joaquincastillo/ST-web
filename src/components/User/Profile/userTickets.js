@@ -12,7 +12,7 @@ import isRole from '../../../utils/utils'
 const GET_USER_TICKETS = gql`
 query($userId:ID!, $cursor: String, $limit: Int!) {
   userTickets(userId:$userId, cursor: $cursor, limit: $limit)
-    @connection(key: "TicketConnection") {
+    @connection(key: "TicketConnectionU") {
     edges {
       id
       client {
