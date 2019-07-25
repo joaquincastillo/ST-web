@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Route, Link } from "react-router-dom";
 
 import Loading from '../../Loading';
 import withSession from '../../Session/withSession';
+import * as routes from '../../../constants/routes';
 
 
 const GET_PAGINATED_TICKETS = gql`
@@ -129,7 +131,7 @@ class TicketList extends Component {
 const TicketItemBase = ({ ticket, session }) => (
 
   <tr>
-    <td>{ticket.id}</td>
+    <td><Link to={{pathname :`${routes.TICKETS}/${ticket.id}`, ticketId: ticket.id}}>{ticket.id}</Link></td>
     <td>{ticket.client.name}</td>
     <td>{ticket.owner.username}</td>
     <td>{ticket.type}</td>

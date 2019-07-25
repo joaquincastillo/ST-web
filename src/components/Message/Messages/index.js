@@ -23,8 +23,8 @@ const MESSAGE_CREATED = gql`
 `;
 
 const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
-  query($cursor: String, $limit: Int!) {
-    messages(cursor: $cursor, limit: $limit)
+  query($chatId:ID!, $cursor: String, $limit: Int!) {
+    messages(chatId:$chatId, cursor: $cursor, limit: $limit)
       @connection(key: "MessagesConnection") {
       edges {
         id
@@ -43,17 +43,16 @@ const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
   }
 `;
 
-const Messages = ({ limit }) => (
+const Messages = ({ limit, chatId }) => (
   <Query
     query={GET_PAGINATED_MESSAGES_WITH_USERS}
-    variables={{ limit }}
+    variables={{ limit, chatId }}
   >
     {({ data, loading, error, fetchMore, subscribeToMore }) => {
       if (!data) {
         return (
           <div>
-            There are no messages yet ... Try to create one by
-            yourself.
+            todavia no hay mensajes
           </div>
         );
       }
@@ -168,11 +167,6 @@ const MessageItemBase = ({ message, session }) => (
     <small>{message.createdAt}</small>
     <p>{message.text}</p>
 
-    {session &&
-      session.me &&
-      message.user.id === session.me.id && (
-        <MessageDelete message={message} />
-      )}
   </div>
 );
 

@@ -5,8 +5,8 @@ import gql from 'graphql-tag';
 import ErrorMessage from '../../Error';
 
 const CREATE_MESSAGE = gql`
-  mutation($text: String!) {
-    createMessage(text: $text) {
+  mutation($chatId:ID!, $text: String!) {
+    createMessage(chatId: $chatId, text: $text) {
       id
       text
       createdAt
@@ -39,11 +39,12 @@ class MessageCreate extends Component {
 
   render() {
     const { text } = this.state;
+    const { chatId } = this.props;
 
     return (
       <Mutation
         mutation={CREATE_MESSAGE}
-        variables={{ text }}
+        variables={{ text, chatId}}
         // Not used anymore because of Subscription
 
         // update={(cache, { data: { createMessage } }) => {

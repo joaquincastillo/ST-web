@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
+import * as routes from '../../../constants/routes';
 
 import Loading from '../../Loading';
 import withSession from '../../Session/withSession';
@@ -137,7 +138,7 @@ class TicketList extends Component {
 const AssignedTicketItemBase = ({ ticket, session }) => (
 
   <tr>
-    <td>{ticket.id}</td>
+    <td><Link to={{pathname :`${routes.TICKETS}/${ticket.id}`, ticketId: ticket.id}}>{ticket.id}</Link></td>
     <td>{ticket.client.name}</td>
     <td>{ticket.type}</td>
     <td>{ticket.service}</td>

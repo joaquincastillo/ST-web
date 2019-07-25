@@ -38,7 +38,7 @@ const Users = ({ id, limit = 100 }) => (
       if (!data) {
         return (
           <div>
-            Todavia no existen useres
+            Todavia no existen Usuarios
           </div>
         );
       }

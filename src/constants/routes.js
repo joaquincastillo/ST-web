@@ -5,5 +5,6 @@ export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
 export const CLIENTS = '/clients';
 export const TICKETS = '/tickets';
+export const CHAT = '/chat';
 export const USERS = '/users';
 export const USER = '/user';
