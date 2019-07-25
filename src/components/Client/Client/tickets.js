@@ -7,8 +7,8 @@ import withSession from '../../Session/withSession';
 
 
 const GET_PAGINATED_TICKETS = gql`
-  query($cursor: String, $limit: Int!) {
-    tickets(cursor: $cursor, limit: $limit)
+query($id:ID!, $cursor: String, $limit: Int!) {
+  clientTickets(id:$id, cursor: $cursor, limit: $limit)
       @connection(key: "TicketConnection") {
       edges {
         id
@@ -24,6 +24,12 @@ const GET_PAGINATED_TICKETS = gql`
         owner {
           username
         }
+        supervisor {
+          username
+        }
+        assignation {
+          username
+        }
         createdAt
       }
       pageInfo {
@@ -34,10 +40,10 @@ const GET_PAGINATED_TICKETS = gql`
   }
 `;
 
-const Tickets = ({ limit = 100 }) => (
+const Tickets = ({ id, limit = 100 }) => (
   <Query
     query={GET_PAGINATED_TICKETS}
-    variables={{ limit }}
+    variables={{ limit, id }}
   >
     {({ data, loading, error, fetchMore, subscribeToMore }) => {
       if (!data) {
@@ -48,13 +54,13 @@ const Tickets = ({ limit = 100 }) => (
         );
       }
 
-      const { tickets } = data;
+      const { clientTickets } = data;
 
-      if (loading || !tickets) {
+      if (loading || !clientTickets) {
         return <Loading />;
       }
 
-      const { edges, pageInfo } = tickets;
+      const { edges, pageInfo } = clientTickets;
 
       return (
         <Fragment>
@@ -130,12 +136,22 @@ const TicketItemBase = ({ ticket, session }) => (
 
   <tr>
     <td>{ticket.id}</td>
-    <td>{ticket.client.name}</td>
     <td>{ticket.owner.username}</td>
     <td>{ticket.type}</td>
     <td>{ticket.service}</td>
     <td>{ticket.priority}</td>
     <td>{ticket.state.state}</td>
+    {ticket.supervisor ? (
+      <td>{ticket.supervisor.username}</td>
+    ) : (
+      <td>por asignar</td>
+    )}
+
+    {ticket.assignation ? (
+      <td>{ticket.assignation.username}</td>
+    ) : (
+      <td>por asignar</td>
+    )}
     <td>{ticket.createdAt}</td>
   </tr>
 );
@@ -144,30 +160,31 @@ const TicketItem = withSession(TicketItemBase);
 
 // export default Tickets;
 
-const TicketsPage = ({ session }) => (
+const ClientTicketsPage = ({ session, id }) => (
   <div class="container justify-content-center">
-    <h2>Pagina Ticketes</h2>
+    <h2>Tickets del cliente</h2>
 
       <table class="table">
         <thead class="thead-dark">
           <tr>
             <th scope="col">ID</th>
-            <th scope="col">Cliente</th>
             <th scope="col">Dueño</th>
             <th scope="col">Tipo</th>
             <th scope="col">Servicio</th>
             <th scope="col">Prioridad</th>
             <th scope="col">Estado</th>
+            <th scope="col">Supervisor</th>
+            <th scope="col">Tecnico</th>
             <th scope="col">Fecha Creacion</th>
           </tr>
         </thead>
         <tbody>
 
-        <Tickets limit={100} />
+        <Tickets limit={100} id={id} />
 
       </tbody>
     </table>
   </div>
 );
 
-export default withSession(TicketsPage);
+export default withSession(ClientTicketsPage);

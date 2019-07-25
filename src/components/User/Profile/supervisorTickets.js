@@ -9,9 +9,9 @@ import isRole from '../../../utils/utils'
 
 
 const GET_USER_TICKETS = gql`
-query(userId:ID!, $cursor: String, $limit: Int!) {
-  tickets(userId:$userId cursor: $cursor, limit: $limit)
-    @connection(key: "TicketConnection") {
+query($userId:ID!, $cursor: String, $limit: Int!) {
+  supervisorTickets(userId:$userId, cursor: $cursor, limit: $limit)
+    @connection(key: "TicketConnectionS") {
     edges {
       id
       client {
@@ -39,10 +39,10 @@ query(userId:ID!, $cursor: String, $limit: Int!) {
 }
 `;
 
-const UserTickets = ({userId, limit = 100 }) => (
+const SupervisorTickets = ({userId, limit = 100 }) => (
   <Query
-    query={GET_PAGINATED_TICKETS}
-    variables={{ limit }}
+    query={GET_USER_TICKETS}
+    variables={{ limit, userId }}
   >
     {({ data, loading, error, fetchMore, subscribeToMore }) => {
       if (!data) {
@@ -53,13 +53,13 @@ const UserTickets = ({userId, limit = 100 }) => (
         );
       }
 
-      const { tickets } = data;
+      const { supervisorTickets } = data;
 
-      if (loading || !tickets) {
+      if (loading || !supervisorTickets) {
         return <Loading />;
       }
 
-      const { edges, pageInfo } = tickets;
+      const { edges, pageInfo } = supervisorTickets;
 
       return (
         <Fragment>
@@ -125,7 +125,7 @@ class TicketList extends Component {
     const { tickets } = this.props;
 
     return tickets.map(ticket => (
-      <TicketItem key={ticket.id} ticket={ticket} />
+      <UserTicketItem key={ticket.id} ticket={ticket} />
     ));
   }
 }
@@ -139,8 +139,17 @@ const UserTicketItemBase = ({ ticket, session }) => (
     <td>{ticket.service}</td>
     <td>{ticket.priority}</td>
     <td>{ticket.state.state}</td>
-    <td>{ticket.supervisor.username}</td>
-    <td>{ticket.assignation.username}</td>
+    {ticket.supervisor ? (
+      <td>{ticket.supervisor.username}</td>
+    ) : (
+      <td>por asignar</td>
+    )}
+
+    {ticket.assignation ? (
+      <td>{ticket.assignation.username}</td>
+    ) : (
+      <td>por asignar</td>
+    )}
     <td>{ticket.createdAt}</td>
   </tr>
 );
@@ -149,13 +158,13 @@ const UserTicketItem = withSession(UserTicketItemBase);
 
 // export default Tickets;
 
-const UserTicketsPage = ({ session }) => {
+const UserTicketsPage = ({session, id}) => {
 
-  var urlParams = new URLSearchParams(document.location.search)
+  // var urlParams = new URLSearchParams(document.location.search)
 
   return (
     <div class="container justify-content-center">
-      <h2>Ticketes Del Usuario</h2>
+      <h2>Tickets  Supervisados</h2>
 
         <table class="table">
           <thead class="thead-dark">
@@ -173,7 +182,7 @@ const UserTicketsPage = ({ session }) => {
           </thead>
           <tbody>
 
-          <UserTickets limit={30} userId={urlParams.get('id')}/>
+          <SupervisorTickets limit={30} userId={id}/>
 
         </tbody>
       </table>
@@ -181,4 +190,8 @@ const UserTicketsPage = ({ session }) => {
   );
 }
 
-export default UserTicketsPage;
+// const UserTicketsPage = ({session}) => (
+//   <h2>Ticketes Del Usuario</h2>
+// );
+
+export default  withSession(UserTicketsPage);

@@ -9,8 +9,8 @@ import * as routes from '../../../constants/routes';
 
 
 const GET_PAGINATED_USERS = gql`
-  query($cursor: String, $limit: Int!) {
-    users(cursor: $cursor, limit: $limit)
+  query($id: ID!,$cursor: String, $limit: Int!) {
+    clientUsers(id: $id, cursor: $cursor, limit: $limit)
       @connection(key: "UserConnection") {
       edges {
         id
@@ -29,10 +29,10 @@ const GET_PAGINATED_USERS = gql`
   }
 `;
 
-const Users = ({ limit = 100 }) => (
+const Users = ({ id, limit = 100 }) => (
   <Query
     query={GET_PAGINATED_USERS}
-    variables={{ limit }}
+    variables={{ limit, id }}
   >
     {({ data, loading, error, fetchMore, subscribeToMore }) => {
       if (!data) {
@@ -43,13 +43,13 @@ const Users = ({ limit = 100 }) => (
         );
       }
 
-      const { users } = data;
+      const { clientUsers } = data;
 
-      if (loading || !users) {
+      if (loading || !clientUsers) {
         return <Loading />;
       }
 
-      const { edges, pageInfo } = users;
+      const { edges, pageInfo } = clientUsers;
 
       return (
         <Fragment>
@@ -137,9 +137,9 @@ const UserItem = withSession(UserItemBase);
 
 // export default Users;
 
-const UsersPage = ({ session }) => (
+const UsersPage = ({ session, id }) => (
   <div class="container justify-content-center">
-    <h2>Pagina Usuarios</h2>
+    <h2>Usuarios del cliente</h2>
 
       <table class="table">
         <thead class="thead-dark">
@@ -152,7 +152,7 @@ const UsersPage = ({ session }) => (
         </thead>
         <tbody>
 
-        <Users limit={100} />
+        <Users limit={100} id={id} />
 
       </tbody>
     </table>

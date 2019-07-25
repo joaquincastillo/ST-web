@@ -53,18 +53,18 @@ const UserTickets = ({userId, limit = 100 }) => (
         );
       }
 
-      const { tickets } = data;
+      const { userTickets } = data;
 
-      if (loading || !tickets) {
+      if (loading || !userTickets) {
         return <Loading />;
       }
 
-      const { edges, pageInfo } = tickets;
+      const { edges, pageInfo } = userTickets;
 
       return (
         <Fragment>
           <TicketList
-            tickets={edges}
+            user_tickets={userTickets.edges}
             subscribeToMore={subscribeToMore}
           />
 
@@ -122,9 +122,9 @@ const MoreTicketsButton = ({
 class TicketList extends Component {
 
   render() {
-    const { tickets } = this.props;
+    const { user_tickets } = this.props;
 
-    return tickets.map(ticket => (
+    return user_tickets.map(ticket => (
       <UserTicketItem key={ticket.id} ticket={ticket} />
     ));
   }
@@ -139,8 +139,17 @@ const UserTicketItemBase = ({ ticket, session }) => (
     <td>{ticket.service}</td>
     <td>{ticket.priority}</td>
     <td>{ticket.state.state}</td>
-    <td>{ticket.supervisor.username}</td>
-    <td>{ticket.assignation.username}</td>
+    {ticket.supervisor ? (
+      <td>{ticket.supervisor.username}</td>
+    ) : (
+      <td>por asignar</td>
+    )}
+
+    {ticket.assignation ? (
+      <td>{ticket.assignation.username}</td>
+    ) : (
+      <td>por asignar</td>
+    )}
     <td>{ticket.createdAt}</td>
   </tr>
 );
@@ -149,13 +158,13 @@ const UserTicketItem = withSession(UserTicketItemBase);
 
 // export default Tickets;
 
-const UserTicketsPage = ({session}) => {
+const UserTicketsPage = ({session, id}) => {
 
-  var urlParams = new URLSearchParams(document.location.search)
+  // var urlParams = new URLSearchParams(document.location.search)
 
   return (
     <div class="container justify-content-center">
-      <h2>Ticketes Del Usuario</h2>
+      <h2>Tickets Del Usuario</h2>
 
         <table class="table">
           <thead class="thead-dark">
@@ -173,7 +182,7 @@ const UserTicketsPage = ({session}) => {
           </thead>
           <tbody>
 
-          <UserTickets limit={30} userId={urlParams.get('id')}/>
+          <UserTickets limit={30} userId={id}/>
 
         </tbody>
       </table>

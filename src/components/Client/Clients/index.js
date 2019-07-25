@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from 'react';
+import { Route, Link } from "react-router-dom";
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import Loading from '../../Loading';
 import withSession from '../../Session/withSession';
+import * as routes from '../../../constants/routes';
 
 
 const GET_PAGINATED_CLIENTS = gql`
@@ -113,18 +115,18 @@ class ClientList extends Component {
 
     return clients.map(client => (
       <ClientItem key={client.id} client={client} />
+
     ));
   }
 }
 
 const ClientItemBase = ({ client, session }) => (
-  <div>
-    <h3>{client.name}</h3>
+  <div class="container shadow-lg rounded-lg border border-secondary m-5">
+    <td><Link to={{pathname :`${routes.CLIENTS}/${client.id}`, clientId: client.id}}><h3>{client.name}</h3></Link></td>
     <small>{client.createdAt}</small>
     <p>{client.email}</p>
     <p>{client.address}</p>
     <p>{client.phone}</p>
-
   </div>
 );
 
@@ -134,7 +136,7 @@ const ClientItem = withSession(ClientItemBase);
 
 const ClientsPage = ({ session }) => (
   <div>
-    <h2>Pagina Clientes</h2>
+    <h2 class="m-5">Pagina Clientes</h2>
 
     <Clients limit={30} />
   </div>

@@ -7,37 +7,35 @@ import Loading from '../../Loading';
 import withSession from '../../Session/withSession';
 import isRole from '../../../utils/utils'
 
-const GET_USER = gql`
+const GET_CLIENT = gql`
   query($id: ID!) {
-    user(id: $id) {
+    client(id: $id) {
       id
-      username
+      name
       email
       phone
-      roles {
-        role
-      }
+      address
     }
   }
 `;
 
-const User = ({ id }) => (
+const Client = ({ id }) => (
   <Query
-    query={GET_USER}
+    query={GET_CLIENT}
     variables={{ id }}
   >
     {({ data, loading, error }) => {
       if (!data) {
         return (
           <div>
-            Usuario no encontrado
+            cliente no encontrado
           </div>
         );
       }
 
-      const { user } = data;
+      const { client } = data;
 
-      if (loading || !user) {
+      if (loading || !client) {
         console.log(data)
         return <Loading />;
       }
@@ -45,36 +43,25 @@ const User = ({ id }) => (
       return (
 
         <div class="container">
-          <h2 class="text-left" >Perfil {user.username}</h2>
+          <h2 class="text-left" >Informacion {client.name}</h2>
           <h3 class="text-left" > Contacto </h3>
-          <p class="text-left"><big>Email: {user.email} </big></p>
-          <p class="text-left"><big>Phone: {user.phone} </big></p>
-
-          <p class="text-left"><big>Roles</big></p>
-          <ul>
-            < RolesList roles={user.roles} />
-          </ul>
+          <p class="text-left"><big>Email: {client.email} </big></p>
+          <p class="text-left"><big>Phone: {client.phone} </big></p>
+          <p class="text-left"><big>address: {client.phone} </big></p>
         </div>
       );
     }}
   </Query>
 );
 
-const RolesList = ({roles}) =>  {
-
-    return roles.map(role => (
-      <li>{role.role}</li>
-    ));
-}
-
-const ProfilePage = ({session, id}) => {
+const ClientPage = ({session, id}) => {
 
   // var urlParams = new URLSearchParams(document.location.search)
 
   return (
 
-      <User id={id} />
+      <Client id={id} />
   );
 }
 
-export default withSession(ProfilePage);
+export default withSession(ClientPage);

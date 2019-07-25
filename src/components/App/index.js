@@ -11,6 +11,7 @@ import ClientsPage from '../Client/Clients';
 import TicketsPage from '../Ticket/Tickets';
 import UsersPage from '../User/Users';
 import Profile from '../User/Profile';
+import ClientPage from '../Client/Client';
 import withSession from '../Session/withSession';
 
 import * as routes from '../../constants/routes';
@@ -49,6 +50,7 @@ const App = ({ session, refetch }) => (
         component={() => <AdminPage />}
       />
       <Route
+        exact
         path={routes.CLIENTS}
         component={() => < ClientsPage />}
       />
@@ -57,13 +59,19 @@ const App = ({ session, refetch }) => (
         component={() => < TicketsPage />}
       />
       <Route
+        exact
         path={routes.USERS}
         component={() => < UsersPage />}
       />
 
       <Route
-        path={`${routes.USER}`}
-        component={() => < Profile />}
+        path={`${routes.USERS}/:userId`}
+        component={Profile}
+      />
+
+      <Route
+        path={`${routes.CLIENTS}/:clientId`}
+        component={ClientPage}
       />
     </div>
   </Router>

@@ -57,18 +57,18 @@ const AssignedTickets = ({userId, limit = 100 }) => (
         );
       }
 
-      const { tickets } = data;
+      const { userAssignations } = data;
 
-      if (loading || !tickets) {
+      if (loading || !userAssignations) {
         return <Loading />;
       }
 
-      const { edges, pageInfo } = tickets;
+      const { edges, pageInfo } = userAssignations;
 
       return (
         <Fragment>
           <TicketList
-            tickets={edges}
+            tickets={userAssignations.edges}
             subscribeToMore={subscribeToMore}
           />
 
@@ -143,7 +143,11 @@ const AssignedTicketItemBase = ({ ticket, session }) => (
     <td>{ticket.service}</td>
     <td>{ticket.priority}</td>
     <td>{ticket.state.state}</td>
-    <td>{ticket.supervisor.username}</td>
+    {ticket.supervisor.username ? (
+      <td>{ticket.supervisor.username}</td>
+    ) : (
+      <td>por asignar</td>
+    )}
     <td>{ticket.owner.username}</td>
     <td>{ticket.createdAt}</td>
   </tr>
@@ -153,13 +157,13 @@ const AssignedTicketItem = withSession(AssignedTicketItemBase);
 
 // export default Tickets;
 
-const AssignedTicketsPage = ({session}) => {
+const AssignedTicketsPage = ({session, id}) => {
 
-  var urlParams = new URLSearchParams(document.location.search)
+  // var urlParams = new URLSearchParams(document.location.search)
 
   return (
     <div class="container justify-content-center">
-      <h2>Ticketes Asignados</h2>
+      <h2>Tickets Asignados</h2>
 
         <table class="table">
           <thead class="thead-dark">
@@ -177,7 +181,7 @@ const AssignedTicketsPage = ({session}) => {
           </thead>
           <tbody>
 
-          <AssignedTickets limit={30} userId={urlParams.get('id')}/>
+          <AssignedTickets limit={30} userId={id}/>
 
         </tbody>
       </table>

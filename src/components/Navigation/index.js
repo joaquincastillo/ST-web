@@ -22,19 +22,18 @@ const NavigationAuth = ({ session }) => (
         <li class="nav-item">
           <a class="nav-link" href={routes.ACCOUNT} >Account ({session.me.username})</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href={routes.CLIENTS} > Clientes </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href={routes.TICKETS} > Tickets </a>
-        </li>
-
-        {session && session.me && isRole(session, 'admin') && (
+        {session && session.me && (!isRole(session, 'cliente') || session.me.roles.length > 1)  && (
           <li class="nav-item">
-            <a class="nav-link" href={routes.ADMIN} > Admin </a>
+            <a class="nav-link" href={routes.CLIENTS} > Clientes </a>
           </li>
         )}
-        {session && session.me && !isRole(session, 'client   w') && (
+        {session && session.me && (!isRole(session, 'cliente') || session.me.roles.length > 1) && (
+          <li class="nav-item">
+            <a class="nav-link" href={routes.TICKETS} > Tickets </a>
+          </li>
+        )}
+
+        {session && session.me && (!isRole(session, 'cliente') || session.me.roles.length > 1) && (
           <li class="nav-item">
             <a class="nav-link" href={routes.USERS} > Usuarios </a>
           </li>
