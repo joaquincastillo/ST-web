@@ -164,10 +164,9 @@ const TicketItem = withSession(TicketItemBase);
 
 const ClientTicketsPage = ({ session, id }) => (
   <div class="container justify-content-center">
-    <h2>Tickets del cliente</h2>
 
       <table class="table">
-        <thead class="thead-dark">
+        <thead class="thead-light">
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Dueño</th>

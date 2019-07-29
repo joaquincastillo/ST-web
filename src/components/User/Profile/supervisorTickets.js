@@ -168,7 +168,7 @@ const UserTicketsPage = ({session, id}) => {
       <h2>Tickets  Supervisados</h2>
 
         <table class="table">
-          <thead class="thead-dark">
+          <thead class="thead-light">
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Cliente</th>

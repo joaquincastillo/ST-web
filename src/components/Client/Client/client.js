@@ -42,12 +42,15 @@ const Client = ({ id }) => (
 
       return (
 
-        <div class="container">
-          <h2 class="text-left" >Informacion {client.name}</h2>
-          <h3 class="text-left" > Contacto </h3>
-          <p class="text-left"><big>Email: {client.email} </big></p>
-          <p class="text-left"><big>Phone: {client.phone} </big></p>
-          <p class="text-left"><big>address: {client.phone} </big></p>
+        <div class="card bg-light shadow mx-5">
+          <div class="card-header">
+              <h4 class="card-title">{client.name}</h4>
+          </div>
+          <div class="card-body">
+            <p class="card-text">Email: {client.email}</p>
+            <p class="card-text">Direccion: {client.address}</p>
+            <p class="card-text">Telefono: {client.phone}</p>
+          </div>
         </div>
       );
     }}
@@ -60,7 +63,12 @@ const ClientPage = ({session, id}) => {
 
   return (
 
-      <Client id={id} />
+    <div>
+
+        <h2 class="ml-5 my-5">Informacion de Contacto</h2>
+        <Client id={id} />
+
+    </div>
   );
 }
 

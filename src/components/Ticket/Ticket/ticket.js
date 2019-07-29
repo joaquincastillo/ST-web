@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Route, Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import Loading from '../../Loading';
 import withSession from '../../Session/withSession';
@@ -19,6 +19,7 @@ const GET_TICKET = gql`
       datetime
       service
       signature{
+        id
         signature
       }
       client{
@@ -41,7 +42,8 @@ const GET_TICKET = gql`
         username
       }
       createdAt
-          state{
+      state {
+        id
         state
       }
     }
@@ -53,7 +55,14 @@ const Ticket = ({ id, session }) => (
     query={GET_TICKET}
     variables={{ id }}
   >
-    {({ data, loading, error }) => {
+    {({ loading, error, data }) => {
+
+      if (loading ) {
+        return <Loading />;
+      }
+
+      if (error) return `Error! ${error.message}`;
+
       if (!data) {
         return (
           <div>
@@ -63,11 +72,6 @@ const Ticket = ({ id, session }) => (
       }
 
       const { ticket } = data;
-
-      if (loading || !ticket) {
-        console.log(data)
-        return <Loading />;
-      }
 
       return (
 

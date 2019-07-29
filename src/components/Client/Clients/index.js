@@ -121,12 +121,17 @@ class ClientList extends Component {
 }
 
 const ClientItemBase = ({ client, session }) => (
-  <div class="container shadow-lg rounded-lg border border-secondary m-5">
-    <td><Link to={{pathname :`${routes.CLIENTS}/${client.id}`, clientId: client.id}}><h3>{client.name}</h3></Link></td>
-    <small>{client.createdAt}</small>
-    <p>{client.email}</p>
-    <p>{client.address}</p>
-    <p>{client.phone}</p>
+  <div class="card bg-light shadow">
+    <div class="card-header">
+      <Link to={{pathname :`${routes.CLIENTS}/${client.id}`, clientId: client.id}}>
+        <h4 class="card-title">{client.name}</h4>
+      </Link>
+    </div>
+    <div class="card-body">
+      <p class="card-text">Email: {client.email}</p>
+      <p class="card-text">Direccion: {client.address}</p>
+      <p class="card-text">Telefono: {client.phone}</p>
+    </div>
   </div>
 );
 
@@ -135,10 +140,12 @@ const ClientItem = withSession(ClientItemBase);
 // export default Clients;
 
 const ClientsPage = ({ session }) => (
-  <div>
-    <h2 class="m-5">Pagina Clientes</h2>
 
-    <Clients limit={30} />
+  <div class="container-fluid">
+    <h2  class="text-center mt-5">Clientes</h2>
+    <div class="card-deck px-5 m-5">
+      <Clients limit={30} />
+    </div>
   </div>
 );
 

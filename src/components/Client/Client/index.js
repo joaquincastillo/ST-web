@@ -23,13 +23,40 @@ class Client extends Component {
 
     return (
 
-      <div>
 
-      <ClientPage id={clientId} />
-      <Users id={clientId} />
-      <Tickets id={clientId} />
+      <div class="container-fluid">
+        <div class="row">
+        <div class="col-4">
+          <ClientPage id={clientId} />
+        </div>
 
+        <div class="col-8">
+
+          <ul class="nav nav-pills nav-justified my-5 mr-5">
+
+            <li class="nav-item">
+              <a class="nav-link active" href="#users" role="tab" data-toggle="tab">Usuarios</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#tickets" role="tab" data-toggle="tab">Tickets</a>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+
+            <div role="tabpanel"  class="tab-pane active" id="users">
+              <Users id={clientId} />
+            </div>
+
+            <div role="tabpanel" class="tab-pane fade" id="tickets">
+              <Tickets id={clientId} />
+            </div>
+          </div>
+
+        </div>
       </div>
+    </div>
     );
   }
 }

@@ -123,14 +123,17 @@ class UserList extends Component {
 }
 
 const UserItemBase = ({ user, session }) => (
-
-  <tr>
-
-    <td><Link to={{pathname :`${routes.USERS}/${user.id}`, userId: user.id}}>{user.id}</Link></td>
-    <td>{user.username}</td>
-    <td>{user.email}</td>
-    <td>{user.phone}</td>
-  </tr>
+  <div class="card bg-light shadow">
+    <div class="card-header">
+      <Link to={{pathname :`${routes.USERS}/${user.id}`, userId: user.id}}>
+        <h4 class="card-title">{user.username}</h4>
+      </Link>
+    </div>
+    <div class="card-body">
+      <p class="card-text">Email: {user.email}</p>
+      <p class="card-text">Phone: {user.phone}</p>
+    </div>
+  </div>
 );
 
 const UserItem = withSession(UserItemBase);
@@ -138,24 +141,12 @@ const UserItem = withSession(UserItemBase);
 // export default Users;
 
 const UsersPage = ({ session, id }) => (
-  <div class="container justify-content-center">
-    <h2>Usuarios del cliente</h2>
+  <div>
 
-      <table class="table">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div class="card-deck my-5 mr-5">
+      <Users limit={100} id={id} />
+    </div>
 
-        <Users limit={100} id={id} />
-
-      </tbody>
-    </table>
   </div>
 );
 

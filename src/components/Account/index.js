@@ -10,8 +10,6 @@ import AssignedTicketsPage  from '../User/Profile/assignationTickets';
 const AccountPage = ({session}) => (
   <div>
     <ProfilePage id={session.me.id} />
-    <UserTicketsPage id={session.me.id} />
-    <AssignedTicketsPage id={session.me.id}/>
   </div>
 );
 

@@ -1,7 +1,7 @@
-function isRole(session, role) {
+function isRole(user, role) {
   var found = false;
-  for(var i = 0; i < session.me.roles.length; i++) {
-      if (session.me.roles[i].role == role) {
+  for(var i = 0; i < user.roles.length; i++) {
+      if (user.roles[i].role == role) {
           found = true;
           break;
       }
