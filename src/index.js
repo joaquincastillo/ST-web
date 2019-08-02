@@ -13,11 +13,11 @@ import App from './components/App';
 import { signOut } from './components/SignOut';
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:8000/graphql',
+  uri: 'http://170.84.211.53/graphql',
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:8000/graphql`,
+  uri: `ws://170.84.211.53/graphql`,
   options: {
     reconnect: true,
   },
