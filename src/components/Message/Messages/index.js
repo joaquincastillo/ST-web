@@ -47,6 +47,7 @@ const Messages = ({ limit, chatId }) => (
   <Query
     query={GET_PAGINATED_MESSAGES_WITH_USERS}
     variables={{ limit, chatId }}
+    pollInterval={2000}
   >
     {({ data, loading, error, fetchMore, subscribeToMore }) => {
       if (!data) {
@@ -155,17 +156,21 @@ class MessageList extends Component {
   render() {
     const { messages } = this.props;
 
-    return messages.map(message => (
+    return messages.reverse().map(message => (
       <MessageItem key={message.id} message={message} />
     ));
   }
 }
 
 const MessageItemBase = ({ message, session }) => (
-  <div>
-    <h3>{message.user.username}</h3>
-    <small>{message.createdAt}</small>
-    <p>{message.text}</p>
+  <div class="card my-2">
+    <div class="card-header">
+      <h3>{message.user.username}</h3>
+    </div>
+    <div class="card-body">
+      <p class="card-text"><small>{message.createdAt}</small></p>
+      <p class="card-text">{message.text}</p>
+    </div>
 
   </div>
 );

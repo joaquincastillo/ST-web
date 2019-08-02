@@ -23,6 +23,7 @@ const Client = ({ id }) => (
   <Query
     query={GET_CLIENT}
     variables={{ id }}
+    fetchPolicy='no-cache'
   >
     {({ data, loading, error }) => {
       if (!data) {

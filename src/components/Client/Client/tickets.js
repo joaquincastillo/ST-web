@@ -46,6 +46,7 @@ const Tickets = ({ id, limit = 100 }) => (
   <Query
     query={GET_PAGINATED_TICKETS}
     variables={{ limit, id }}
+    fetchPolicy='no-cache'
   >
     {({ data, loading, error, fetchMore, subscribeToMore }) => {
       if (!data) {

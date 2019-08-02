@@ -140,7 +140,7 @@ const Roles = () => (
   <Query
     query={GET_ROLES}
   >
-    {({ data, loading, error, fetchMore}) => {
+    {({ data, loading, error}) => {
       if (!data) {
         return (
           <div>
@@ -198,12 +198,12 @@ const Users = ({ rolesFull, roles, limit = 100 }) => (
         <Fragment>
         <Check roles={rolesFull} users={edges}/>
 
-
           {pageInfo.hasNextPage && (
             <MoreUsersButton
               limit={limit}
               pageInfo={pageInfo}
               fetchMore={fetchMore}
+              roles={roles}
             >
               More
             </MoreUsersButton>
@@ -216,6 +216,7 @@ const Users = ({ rolesFull, roles, limit = 100 }) => (
 
 const MoreUsersButton = ({
   limit,
+  roles,
   pageInfo,
   fetchMore,
   children,
@@ -227,6 +228,7 @@ const MoreUsersButton = ({
         variables: {
           cursor: pageInfo.endCursor,
           limit,
+          roles
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           if (!fetchMoreResult) {

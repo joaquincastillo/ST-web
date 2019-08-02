@@ -33,6 +33,7 @@ const Users = ({ id, limit = 100 }) => (
   <Query
     query={GET_PAGINATED_USERS}
     variables={{ limit, id }}
+    fetchPolicy='no-cache'
   >
     {({ data, loading, error, fetchMore, subscribeToMore }) => {
       if (!data) {

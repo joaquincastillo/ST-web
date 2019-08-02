@@ -26,7 +26,7 @@ class Chat extends Component {
 
       <h2>Chat</h2>
 
-      {session && session.me && <MessageCreate chatId={chatId} />}
+      {session && session.me  && <MessageCreate chatId={chatId} />}
       <Messages limit={20} chatId={chatId} />
 
       </div>

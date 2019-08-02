@@ -44,6 +44,7 @@ const UserTickets = ({userId, limit = 100 }) => (
   <Query
     query={GET_USER_TICKETS}
     variables={{ limit, userId }}
+    fetchPolicy='no-cache'
   >
     {({ data, loading, error, fetchMore, subscribeToMore }) => {
       if (!data) {

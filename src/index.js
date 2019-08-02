@@ -13,11 +13,11 @@ import App from './components/App';
 import { signOut } from './components/SignOut';
 
 const httpLink = new HttpLink({
-  uri: 'http://170.84.211.53:8000/graphql',
+  uri: 'http://localhost:8000/graphql',
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://170.84.211.53:8000/graphql`,
+  uri: `ws://localhost:8000/graphql`,
   options: {
     reconnect: true,
   },
@@ -71,6 +71,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     }
   }
 });
+
 
 const link = ApolloLink.from([authLink, errorLink, terminatingLink]);
 

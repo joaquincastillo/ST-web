@@ -192,8 +192,9 @@ const Tickets = ({ states, limit = 100 }) => (
   <Query
     query={GET_PAGINATED_TICKETS}
     variables={{ limit }}
+    fetchPolicy='no-cache'
   >
-    {({ data, loading, error, fetchMore, subscribeToMore }) => {
+    {({ data, loading, error, fetchMore }) => {
       if (!data) {
         return (
           <div>
@@ -299,7 +300,7 @@ const TicketItem = withSession(TicketItemBase);
 const TicketsPage = ({ states, session }) => (
   <div >
 
-    <Tickets states={states} limit={100}  />
+    <Tickets states={states} limit={200}  />
   </div>
 );
 

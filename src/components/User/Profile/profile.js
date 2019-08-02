@@ -29,6 +29,7 @@ const User = ({ id }) => (
   <Query
     query={GET_USER}
     variables={{ id }}
+    fetchPolicy='no-cache'
   >
     {({ data, loading, error }) => {
       if (!data) {
