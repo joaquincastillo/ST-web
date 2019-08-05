@@ -144,26 +144,6 @@ const ClientsPage = ({ session }) => (
 
   <div class="container-fluid">
     <h2  class="text-center mt-5">Clientes</h2>
-    <button type="button" class="btn btn-primary  float-right mx-5" data-toggle="modal" data-target="#new">
-      Crear Cliente
-    </button>
-
-      <div class="modal fade" id="new">
-        <div class="modal-dialog modal-xl">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Crear Cliente</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
 
     <div class="card-deck px-5 m-5 my-2">
       <Clients limit={30} />
